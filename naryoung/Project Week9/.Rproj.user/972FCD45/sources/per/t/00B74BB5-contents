@@ -1,0 +1,87 @@
+
+library(ggplot2)
+library(plotly)
+library(dplyr)
+library(extrafont)
+
+hotelDf <- read.csv('./hotel_bookings.csv')
+str(hotelDf)
+
+sum(is.na(hotelDf))
+hotelDf <- na.omit(hotelDf)
+sum(is.na(hotelDf))
+
+hotelDf <- hotelDf[hotelDf$country!='NULL',]
+
+hotelDf$cancel <- ifelse(hotelDf$is_canceled==0,'reserved','canceled')
+
+# 호텔별 예약/취소 현황
+ggplot(hotelDf, aes(x=hotel, fill=cancel)) + 
+  ggtitle("Reservation/Cancellation Status by Hotel") +
+  geom_bar(position='dodge') + theme(text = element_text(face='bold'), plot.title = element_text(face='bold'))
+
+# 년도별 예약/취소 현황
+year.canceled <- aggregate(hotelDf$is_canceled, by=list(hotelDf$arrival_date_year), FUN=sum)
+year.reserved <- aggregate(!hotelDf$is_canceled, by=list(hotelDf$arrival_date_year), FUN=sum)
+
+year.canceled$fraction <- year.canceled$x / sum(year.canceled$x)
+year.canceled$ymax <- cumsum(year.canceled$fraction)
+year.canceled$ymin <- c(0, head(year.canceled$ymax, n=-1))
+year.canceled$labelPosition <- (year.canceled$ymax+year.canceled$ymin) / 2
+year.canceled$label <- paste0(year.canceled$Group.1, '\n count: ', year.canceled$x)
+  
+year.reserved$fraction <- year.reserved$x / sum(year.reserved$x)
+year.reserved$ymax <- cumsum(year.reserved$fraction)
+year.reserved$ymin <- c(0, head(year.reserved$ymax, n=-1))
+year.reserved$labelPosition <- (year.reserved$ymax+year.reserved$ymin) / 2
+year.reserved$label <- paste0(year.reserved$Group.1, '\n count: ', year.reserved$x)
+
+ggplot(year.canceled, aes(ymax=ymax,ymin=ymin,xmax=4,xmin=3, fill=Group.1))+
+  ggtitle("Cancellation Status by Year") +
+  geom_rect() + geom_text(x=2.3, aes(y=labelPosition, label=label), size =4)+ 
+  coord_polar(theta='y') +
+  xlim(c(1,4)) + theme_void() + theme(legend.position = 'none',plot.title=element_text(face='bold'))
+
+ggplot(year.reserved, aes(ymax=ymax,ymin=ymin,xmax=4,xmin=3, fill=Group.1))+
+  ggtitle("Reservation Status by Year") +
+  geom_rect() + geom_text(x=2.3, aes(y=labelPosition, label=label), size =4)+ 
+  coord_polar(theta='y') +
+  xlim(c(1,4)) + theme_void() + 
+  theme(legend.position = 'none',plot.title=element_text(face='bold'))
+
+
+"library(maps)
+library(mapproj)
+
+world <- map_data(map='world')
+
+ggplot(world, aes(x=long, y=lat, group=group)) +
+  geom_polygon(color='black', fill='white')+
+  coord_quickmap() +
+  theme(panel.background = element_rect(fill = '#d8e4ec', colour = 'lightgray'))"
+
+
+# 나라별 예약/취소 현황
+country.canceled <- aggregate(hotelDf$is_canceled, by=list(hotelDf$country), FUN=sum)
+country.reserved <- aggregate(!hotelDf$is_canceled, by=list(hotelDf$country), FUN=sum)
+
+countryDf <- inner_join(country.reserved, country.canceled, by="Group.1")
+colnames(countryDf) <- c('country', 'reserved', 'canceled')
+countryDf 
+
+p <- ggplot(countryDf, aes(reserved, canceled)) +
+  ggtitle("Reservation/Cancellation Status by Country") +
+  geom_point(aes(color = country, size = reserved+canceled, alpha = 0.5)) +
+  theme(legend.position = 'none', plot.title = element_text(face='bold'),
+        text = element_text(family = "Consolas", face='bold'))
+
+ggplotly(p)
+
+# 사람 수별 예약/취소 현황
+str(hotelDf)
+
+hotelDf$family <- hotelDf$adults+hotelDf$children+hotelDf$babies
+aggregate(hotelDf$is_canceled, by=list(hotelDf$family), FUN=sum)
+
+
+
