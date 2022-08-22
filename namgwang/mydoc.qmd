@@ -1,0 +1,15 @@
+---
+title: 'vscode'
+---
+
+### ctrl + shift + I 클릭 -> {r} 생성
+```{r}
+str(iris)
+plot(iris[,-5])
+```
+
+
+
+```{python}
+print('hello world')
+```
