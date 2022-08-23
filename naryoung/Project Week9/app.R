@@ -34,6 +34,14 @@ d2$Group.1 <- factor(d2$Group.1)
 colnames(d1) <- c('year','month','count')
 colnames(d2) <- c('year','month','count')
 
+data_summary <- function(x) { 
+  m <- mean(x) 
+  ymin <- m-sd(x) 
+  ymax <- m+sd(x) 
+  
+  return(c(y=m,ymin=ymin,ymax=ymax))
+}
+
 # 호텔별 예약/취소 현황
 month.canceled <- aggregate(hotelDf$is_canceled, by=list(hotelDf$arrival_date_month,hotelDf$hotel), FUN=sum)
 month.reserved <- aggregate(hotelDf$is_canceled+!hotelDf$is_canceled, by=list(hotelDf$arrival_date_month,hotelDf$hotel), FUN=sum)
@@ -75,12 +83,19 @@ familyDf2 <- aggregate(hotelDf$is_canceled, by=list(hotelDf$family), FUN=sum)
 familyDf2$Group.1 <- factor(familyDf2$Group.1)
 colnames(familyDf2) <- c('family','count')
 
+backgroundImageCSS <- "/* background-color: #cccccc; */
+                       height: 91vh;
+                       background-position: center;
+                       background-repeat: no-repeat;
+                       /* background-size: cover; */
+                       background-image: url('%s');"
 
 ui <- dashboardPage(
   dashboardHeader(title = "호텔 예약/취소 현황", titleWidth = 50),
   dashboardSidebar(
     size = "thin", color = "teal",
     sidebarMenu(
+      menuItem(tabName = "tab", "목차"),
       menuItem(tabName = "plot1", "호텔별"),
       menuItem(tabName = "plot2", "나라별"),
       menuItem(tabName = "plot3", "연도별"),
@@ -88,6 +103,13 @@ ui <- dashboardPage(
     )
   ),
   dashboardBody(
+    tabItem(
+      selected = 1,
+      tabName = "tab",
+      center = TRUE,
+      style = sprintf(backgroundImageCSS, 
+                      "https://seoul.intercontinental.com/upload/image/room/21/10949.jpg")
+    ),
     tabItem(tabName = "plot1",
             fluidRow(plotOutput('plot1', width = 1500, height = 600))
     ), 
@@ -98,7 +120,7 @@ ui <- dashboardPage(
             fluidRow(plotOutput('plot3', width = 1200, height = 500))
     ),
     tabItem(tabName = "plot4",
-            fluidRow(plotOutput('plot4', width = 1200, height = 500))
+            fluidRow(img(src = 'graph1.gif'),img(src = 'graph2.gif'))
     )
   ))
 
@@ -129,7 +151,7 @@ server <- function(input, output) {
       theme_bw() +
       ylim(c(0,30000)) +
       xlim(c(0,50000)) +
-      theme(legend.position = 'none', plot.title = element_text(face='bold'),
+      theme(legend.position = 'none', plot.title = element_text(face='bold', size=20),
             text = element_text(family = "Consolas", face='bold'))
     
     ggplotly(p)
@@ -138,14 +160,17 @@ server <- function(input, output) {
     p1 <- ggplot(d1, aes(x=year, y=count, fill=year)) +
       ggtitle('Reservation Status by year') +
       geom_violin(position='dodge', alpha=0.5, scale = 'count', color=NA, trim = F) + 
+      stat_summary(fun.data=data_summary, alpha = .5) +
       theme_ipsum()
     p2 <- ggplot(d2, aes(x=year, y=count, fill=year)) + 
       ggtitle('Cancellation Status by year')+
-      geom_violin(position='dodge', alpha=0.5, scale = 'count', color=NA, trim = F) + theme_ipsum()
+      geom_violin(position='dodge', alpha=0.5, scale = 'count', color=NA, trim = F) + 
+      stat_summary(fun.data=data_summary, alpha = .5) +
+      theme_ipsum()
     grid.arrange(arrangeGrob(p1, p2, ncol=2), nrow = 1) 
   })
   output$plot4 <- renderPlot({
-    p1 <- ggplot(familyDf, aes(x=family, y=count)) +
+    ggplot(familyDf, aes(x=family, y=count)) +
       ggtitle('Reservation Status by family') +
       geom_segment(aes(x=family, xend=family, y=0, yend=count), color=ifelse(familyDf$family=='2','orange','grey'),
                    size = 1) +
@@ -156,9 +181,11 @@ server <- function(input, output) {
       theme(
         panel.grid.major.y = element_blank(),
         panel.border = element_blank(),
-        axis.ticks.y = element_blank()
-      )# + transition_time(family)
-    p2 <- ggplot(familyDf2, aes(x=family, y=count)) +
+        axis.ticks.y = element_blank(),
+        plot.title = element_text(face='bold', size=20)) + transition_time(family)
+    #anim_save("graph1.gif") 
+    
+    ggplot(familyDf2, aes(x=family, y=count)) +
       ggtitle('Cancellation Status by family')+
       geom_segment(aes(x=family, xend=family, y=0, yend=count), color=ifelse(familyDf$family=='2','orange','grey'),
                    size = 1) +
@@ -169,9 +196,9 @@ server <- function(input, output) {
       theme(
         panel.grid.major.y = element_blank(),
         panel.border = element_blank(),
-        axis.ticks.y = element_blank()
-      )
-    grid.arrange(arrangeGrob(p1, p2, ncol=2), nrow = 1)
+        axis.ticks.y = element_blank(),
+        plot.title = element_text(face='bold', size=20)) + transition_time(family)
+    #anim_save("graph2.gif") 
   })
 }
 
