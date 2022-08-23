@@ -126,13 +126,20 @@ ui <- fluidPage(h1("Hotel Booking demand", style = 'font-weight: bold;'),
                   
                   #영효파트
                   tabPanel("conclusion",
-                           h2('결론')
-                           ),
-                  mainPanel(
-                    img(src = 'graph_yh_1.gif'),
-                    plotOutput('plot_yh_2'),
-                    plotOutput('plot_yh_3')
-                  )
+                           h2('결론'),
+                           tabsetPanel(
+                             tabPanel("예약 취소",
+                                      plotOutput('plot_yh_2'),
+                                      plotOutput('plot_yh_3')),
+                             tabPanel("재방문 고객",
+                                      img(src = 'graph_yh_1.gif',
+                                          width = 600,
+                                          height = 600)),
+                             tabPanel("정리")
+                           )
+                           
+                           )
+
                 )
 )
 
@@ -161,13 +168,11 @@ server <- function(input, output) {
   
   
   # 영효파트
-
+  
+  df_city <- df[df$hotel == 'City Hotel',]
+  df_resort <- df[df$hotel == 'Resort Hotel',]
 
   output$plot_yh_1 <- renderPlot({
-    
-    df_city <- df[df$hotel == 'City Hotel',]
-    df_resort <- df[df$hotel == 'Resort Hotel',]
-    
     df_city_repeated <- df_city[df_city$is_repeated_guest == 1,]
     df_resort_repeated <- df_resort[df_resort$is_repeated_guest == 1,]
     
@@ -226,21 +231,19 @@ server <- function(input, output) {
   })
   # anim_save("graph_yh_1.gif") 
   
+  df_city_cancel <- df_city[df_city$is_canceled == 1,]
+  df_resort_cancel <- df_resort[df_resort$is_canceled == 1,]
+  
+  cancel_city <- data.frame()
+  cancel_resort <- data.frame()
+  
+  month <- c(
+    'January', 'February', 'March', 'April', 'May',
+    'June', 'July', 'August', 'September', 'October',
+    'November', 'December'
+  )
+  
   output$plot_yh_2 <- renderPlot({
-    df_city_cancel <- df_city[df_city$is_canceled == 1,]
-    df_resort_cancel <- df_resort[df_resort$is_canceled == 1,]
-    
-    unique(df$arrival_date_month)
-    
-    month <- c(
-      'January', 'February', 'March', 'April', 'May',
-      'June', 'July', 'August', 'September', 'October',
-      'November', 'December'
-    )
-    
-    cancel_city <- data.frame()
-    cancel_resort <- data.frame()
-    
     for (i in month){
       C1 = i
       C2 = round(nrow(df_city_cancel[df_city_cancel$arrival_date_month== i,]) / 
@@ -249,13 +252,7 @@ server <- function(input, output) {
     }
     names(cancel_city) = c('Month', 'Rate')
     
-    for (i in month){
-      C1 = i
-      C2 = round(nrow(df_resort_cancel[df_resort_cancel$arrival_date_month== i,]) / 
-                   nrow(df_resort[df_resort$arrival_date_month == i,])*100,2)
-      cancel_resort = rbind(cancel_resort, c(C1, C2))
-    }
-    names(cancel_resort) = c('Month', 'Rate')
+
     
     ggplot(cancel_city, aes(Month, Rate)) +
       geom_bar(stat = 'identity') +
@@ -267,6 +264,15 @@ server <- function(input, output) {
   })
   
   output$plot_yh_3 <- renderPlot({
+    
+    for (i in month){
+      C1 = i
+      C2 = round(nrow(df_resort_cancel[df_resort_cancel$arrival_date_month== i,]) / 
+                   nrow(df_resort[df_resort$arrival_date_month == i,])*100,2)
+      cancel_resort = rbind(cancel_resort, c(C1, C2))
+    }
+    names(cancel_resort) = c('Month', 'Rate')
+    
     ggplot(cancel_resort, aes(Month, Rate)) +
       geom_bar(stat = 'identity') +
       scale_x_discrete(limits = month) +
