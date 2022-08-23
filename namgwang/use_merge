@@ -1,0 +1,247 @@
+"","NAME","mv5"
+"1","Afghanistan",0
+"2","Åland Islands",0
+"3","Albania",0
+"4","Algeria",9.70873786407767
+"5","American Samoa",0
+"6","Andorra",0
+"7","Angola",23.943661971831
+"8","Anguilla",0
+"9","Antarctica",0
+"10","Antigua and Barbuda",0
+"11","Argentina",2.34741784037559
+"12","Armenia",0
+"13","Aruba",0
+"14","Australia",2.34741784037559
+"15","Austria",3.98089171974522
+"16","Azerbaijan",0
+"17","Bahamas",0
+"18","Bahrain",0
+"19","Bangladesh",0
+"20","Barbados",0
+"21","Belarus",0
+"22","Belgium",3.42759211653813
+"23","Belize",0
+"24","Benin",0
+"25","Bermuda",0
+"26","Bhutan",0
+"27","Bolivia",0
+"28","Bosnia and Herzegovina",0
+"29","Botswana",0
+"30","Bouvet Island",0
+"31","Brazil",2.93984622342831
+"32","British Indian Ocean Territory",0
+"33","British Virgin Islands",0
+"34","Brunei Darussalam",0
+"35","Bulgaria",0
+"36","Burkina Faso",0
+"37","Burma",0
+"38","Burundi",0
+"39","Cambodia",0
+"40","Cameroon",0
+"41","Canada",0
+"42","Cape Verde",0
+"43","Cayman Islands",0
+"44","Central African Republic",0
+"45","Chad",0
+"46","Chile",0
+"47","China",2.42077464788732
+"48","Christmas Island",0
+"49","Cocos (Keeling) Islands",0
+"50","Colombia",0
+"51","Comoros",0
+"52","Congo",0
+"53","Cook Islands",0
+"54","Costa Rica",0
+"55","Cote d'Ivoire",0
+"56","Croatia",0
+"57","Cuba",0
+"58","Cyprus",0
+"59","Czech Republic",0
+"60","Democratic Republic of the Congo",0
+"61","Denmark",1.15207373271889
+"62","Djibouti",0
+"63","Dominica",0
+"64","Dominican Republic",0
+"65","Ecuador",0
+"66","Egypt",0
+"67","El Salvador",0
+"68","Equatorial Guinea",0
+"69","Eritrea",0
+"70","Estonia",0
+"71","Ethiopia",0
+"72","Falkland Islands (Malvinas)",0
+"73","Faroe Islands",0
+"74","Fiji",0
+"75","Finland",2.25225225225225
+"76","France",3.42664092664093
+"77","French Guiana",0
+"78","French Polynesia",0
+"79","French Southern and Antarctic Lands",0
+"80","Gabon",0
+"81","Gambia",0
+"82","Georgia",0
+"83","Germany",1.65608611647806
+"84","Ghana",0
+"85","Gibraltar",0
+"86","Greece",15.625
+"87","Greenland",0
+"88","Grenada",0
+"89","Guadeloupe",0
+"90","Guam",0
+"91","Guatemala",0
+"92","Guernsey",0
+"93","Guinea",0
+"94","Guinea-Bissau",0
+"95","Guyana",0
+"96","Haiti",0
+"97","Heard Island and McDonald Islands",0
+"98","Holy See (Vatican City)",0
+"99","Honduras",0
+"100","Hong Kong",0
+"101","Hungary",0
+"102","Iceland",8.92857142857143
+"103","India",0
+"104","Indonesia",0
+"105","Iran (Islamic Republic of)",0
+"106","Iraq",0
+"107","Ireland",4.60077174235678
+"108","Isle of Man",0
+"109","Israel",2.25225225225225
+"110","Italy",5.20138703654308
+"111","Jamaica",0
+"112","Japan",7.61421319796954
+"113","Jersey",0
+"114","Jordan",0
+"115","Kazakhstan",0
+"116","Kenya",0
+"117","Kiribati",0
+"118","Korea, Democratic People's Republic of",0
+"119","Korea, Republic of",0
+"120","Kuwait",0
+"121","Kyrgyzstan",0
+"122","Lao People's Democratic Republic",0
+"123","Latvia",0
+"124","Lebanon",16.1290322580645
+"125","Lesotho",0
+"126","Liberia",0
+"127","Libyan Arab Jamahiriya",0
+"128","Liechtenstein",0
+"129","Lithuania",0
+"130","Luxembourg",5.24475524475525
+"131","Macau",0
+"132","Madagascar",0
+"133","Malawi",0
+"134","Malaysia",0
+"135","Maldives",0
+"136","Mali",0
+"137","Malta",0
+"138","Marshall Islands",0
+"139","Martinique",0
+"140","Mauritania",0
+"141","Mauritius",0
+"142","Mayotte",0
+"143","Mexico",0
+"144","Micronesia, Federated States of",0
+"145","Monaco",0
+"146","Mongolia",0
+"147","Montenegro",0
+"148","Montserrat",0
+"149","Morocco",1.953125
+"150","Mozambique",0
+"151","Namibia",0
+"152","Nauru",0
+"153","Nepal",0
+"154","Netherlands",4.52380952380952
+"155","Netherlands Antilles",0
+"156","New Caledonia",0
+"157","New Zealand",0
+"158","Nicaragua",0
+"159","Niger",0
+"160","Nigeria",0
+"161","Niue",0
+"162","Norfolk Island",0
+"163","Northern Mariana Islands",0
+"164","Norway",1.65016501650165
+"165","Oman",0
+"166","Pakistan",0
+"167","Palau",0
+"168","Palestine",0
+"169","Panama",0
+"170","Papua New Guinea",0
+"171","Paraguay",0
+"172","Peru",17.2413793103448
+"173","Philippines",0
+"174","Pitcairn Islands",0
+"175","Poland",2.75027502750275
+"176","Portugal",29.3923803044477
+"177","Puerto Rico",0
+"178","Qatar",0
+"179","Republic of Moldova",0
+"180","Reunion",0
+"181","Romania",0
+"182","Russia",0.8
+"183","Rwanda",0
+"184","Saint Barthelemy",0
+"185","Saint Helena",0
+"186","Saint Kitts and Nevis",0
+"187","Saint Lucia",0
+"188","Saint Martin",0
+"189","Saint Pierre and Miquelon",0
+"190","Saint Vincent and the Grenadines",0
+"191","Samoa",0
+"192","San Marino",0
+"193","Sao Tome and Principe",0
+"194","Saudi Arabia",0
+"195","Senegal",0
+"196","Serbia",0
+"197","Seychelles",0
+"198","Sierra Leone",0
+"199","Singapore",0
+"200","Slovakia",0
+"201","Slovenia",18.1818181818182
+"202","Solomon Islands",0
+"203","Somalia",0
+"204","South Africa",6.25
+"205","South Georgia South Sandwich Islands",0
+"206","Spain",4.77087996230416
+"207","Sri Lanka",0
+"208","Sudan",0
+"209","Suriname",0
+"210","Svalbard",0
+"211","Swaziland",0
+"212","Sweden",4.91159135559921
+"213","Switzerland",0.870069605568445
+"214","Syrian Arab Republic",0
+"215","Taiwan",0
+"216","Tajikistan",0
+"217","Thailand",0
+"218","The former Yugoslav Republic of Macedonia",0
+"219","Timor-Leste",0
+"220","Togo",0
+"221","Tokelau",0
+"222","Tonga",0
+"223","Trinidad and Tobago",0
+"224","Tunisia",0
+"225","Turkey",18.1451612903226
+"226","Turkmenistan",0
+"227","Turks and Caicos Islands",0
+"228","Tuvalu",0
+"229","Uganda",0
+"230","Ukraine",0
+"231","United Arab Emirates",0
+"232","United Kingdom",0
+"233","United Republic of Tanzania",0
+"234","United States",0
+"235","United States Minor Outlying Islands",0
+"236","United States Virgin Islands",0
+"237","Uruguay",0
+"238","Uzbekistan",0
+"239","Vanuatu",0
+"240","Venezuela",0
+"241","Viet Nam",0
+"242","Wallis and Futuna Islands",0
+"243","Western Sahara",0
+"244","Yemen",0
+"245","Zambia",0
+"246","Zimbabwe",0

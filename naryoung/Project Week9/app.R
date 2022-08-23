@@ -10,6 +10,12 @@ library(gganimate)
 library(fmsb)
 library(hrbrthemes)
 
+require(showtext)
+
+font_add_google(name = 'Nanum Gothic', regular.wt=400, bold.wt=700)
+showtext_auto()
+showtext_opts(dpi = 112)
+
 hotelDf <- read.csv('./hotel_bookings.csv')
 
 sum(is.na(hotelDf))
@@ -156,6 +162,7 @@ server <- function(input, output) {
     
     ggplotly(p)
   })
+  
   output$plot3 <- renderPlot({
     p1 <- ggplot(d1, aes(x=year, y=count, fill=year)) +
       ggtitle('Reservation Status by year') +
