@@ -130,15 +130,28 @@ ui <- fluidPage(h1("Hotel Booking demand", style = 'font-weight: bold;'),
                            tabsetPanel(
                              tabPanel("예약 취소",
                                       plotOutput('plot_yh_2'),
-                                      plotOutput('plot_yh_3')),
+                                      plotOutput('plot_yh_3'),
+                                      img(src = 'graph_yh_2.gif',
+                                          width = 600,
+                                          height = 600)
+                                      ),
                              tabPanel("재방문 고객",
                                       img(src = 'graph_yh_1.gif',
                                           width = 600,
-                                          height = 600)),
-                             tabPanel("정리")
-                           )
+                                          height = 600),
+                                      h5('City Hotel은 Aviation 고객들 유치에 관심도를 높여야 한다.'),
+                                      h5('ex) 공항 ↔ 호텔 셔틀버스 운행'),
+                                      h5('ex) 항공사와 연계한 상품 개발'),
+                                      h5('\n'),
+                                      h5('Resort Hotel은 직접 예약하는 개인 고객들 유치에 관심도를 높여야 한다.'),
+                                      h5('ex) 일반대중을 대상으로 한 광고횟수 ↑')),
+                             tabPanel("정리",
+                                      h5('City Hotel과 Resort Hotel의 데이터로 보았을 때'),
+                                      h5('자신의 호텔이 가진 입지조건에 맞추어'),
+                                      h5('자신에게 유리한 맞춤전략을 취해야 하는 것을 알 수 있었다.'),
+                                      ))
+                  )
                            
-                           )
 
                 )
 )
@@ -218,6 +231,7 @@ server <- function(input, output) {
     b <- data.frame(group = market_segment,
                     values = repeated_resort, frame = rep('b', 7))
     data <- rbind(a,b) 
+
     
     ggplot(data, aes(x=group, y=values, fill=group)) + 
       geom_bar(stat='identity') +
@@ -248,9 +262,10 @@ server <- function(input, output) {
       C1 = i
       C2 = round(nrow(df_city_cancel[df_city_cancel$arrival_date_month== i,]) / 
                    nrow(df_city[df_city$arrival_date_month == i,])*100,2)
-      cancel_city = rbind(cancel_city, c(C1, C2))
+      C3 = 'a'
+      cancel_city = rbind(cancel_city, c(C1, C2, C3))
     }
-    names(cancel_city) = c('Month', 'Rate')
+    names(cancel_city) = c('Month', 'Rate', 'city_result')
     
 
     
@@ -269,9 +284,10 @@ server <- function(input, output) {
       C1 = i
       C2 = round(nrow(df_resort_cancel[df_resort_cancel$arrival_date_month== i,]) / 
                    nrow(df_resort[df_resort$arrival_date_month == i,])*100,2)
-      cancel_resort = rbind(cancel_resort, c(C1, C2))
+      C3 = 'b'
+      cancel_resort = rbind(cancel_resort, c(C1, C2, C3))
     }
-    names(cancel_resort) = c('Month', 'Rate')
+    names(cancel_resort) = c('Month', 'Rate', 'city_result')
     
     ggplot(cancel_resort, aes(Month, Rate)) +
       geom_bar(stat = 'identity') +
@@ -281,5 +297,26 @@ server <- function(input, output) {
       xlab("") + ylab("")+
       scale_fill_brewer(palette = "Set3") 
   })
+  
+  data2 <- rbind(cancel_city, cancel_resort)
+  
+  output$plot_yh_4 <- renderPlot({
+    ggplot(data2, aes(x = Month, y = Rate, fill = Month)) +
+      geom_bar(stat = 'identity') +
+      scale_x_discrete(limits = month) +
+      coord_polar() +
+      xlab("") + ylab("")+
+      scale_fill_brewer(palette = "Set3", direction = -1) +
+      theme_minimal() +
+      transition_states(
+        city_result,
+        transition_length = 2,
+        state_length = 1
+      ) + ease_aes('sine-in-out')
+  })
+  
+  #anim_save("graph_yh_2.gif")
+  
+  
 }
 shinyApp(ui, server)
