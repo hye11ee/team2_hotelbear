@@ -8,11 +8,9 @@ library(RColorBrewer)
 library(ggplot2)
 library(shiny)
 library(treemap)
-library(d3treeR)
+library(d3Tree)
 library(tidyverse)
 # library(leaflet)
-
-
 # 데이터 로딩
 df <- read.csv('hotel_bookings.csv')
 df <- df[complete.cases(df),]
