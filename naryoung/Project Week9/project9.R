@@ -97,13 +97,25 @@ d1$Group.1 <- factor(d1$Group.1)
 d2$Group.1 <- factor(d2$Group.1)
 colnames(d1) <- c('year','month','count')
 colnames(d2) <- c('year','month','count')
+
+data_summary <- function(x) { 
+  m <- mean(x) 
+  ymin <- m-sd(x) 
+  ymax <- m+sd(x) 
+  
+  return(c(y=m,ymin=ymin,ymax=ymax))
+  }
+
 p1 <- ggplot(d1, aes(x=year, y=count, fill=year)) +
   ggtitle('Reservation Status by year') +
   geom_violin(position='dodge', alpha=0.5, scale = 'count', color=NA, trim = F) + 
+  stat_summary(fun.data=data_summary, alpha = .5) +
   theme_ipsum()
 p2 <- ggplot(d2, aes(x=year, y=count, fill=year)) + 
   ggtitle('Cancellation Status by year')+
-  geom_violin(position='dodge', alpha=0.5, scale = 'count', color=NA, trim = F) + theme_ipsum()
+  geom_violin(position='dodge', alpha=0.5, scale = 'count', color=NA, trim = F) + 
+  stat_summary(fun.data=data_summary, alpha = .5) +
+  theme_ipsum()
 grid.arrange(arrangeGrob(p1, p2, ncol=2), nrow = 1) 
 
 # 나라별 예약/취소 현황
@@ -122,7 +134,7 @@ p <- ggplot(countryDf, aes(reserved, canceled)) +
   scale_fill_viridis(discrete=TRUE, guide=FALSE, option="A") +
   scale_size(range=c(1,15)) +
   theme_bw() +
-  theme(legend.position = 'none', plot.title = element_text(face='bold'),
+  theme(legend.position = 'none', plot.title = element_text(face='bold', size=20),
         text = element_text(family = "Consolas", face='bold'))
 
 ggplotly(p)
@@ -132,14 +144,14 @@ ggplotly(p)
 hotelDf$family <- hotelDf$adults+hotelDf$children+hotelDf$babies
 rm(familyDf)
 familyDf <- aggregate(hotelDf$is_canceled+!hotelDf$is_canceled, by=list(hotelDf$family), FUN=sum)
-familyDf$Group.1 <- factor(familyDf$Group.1)
+#familyDf$Group.1 <- factor(familyDf$Group.1)
 colnames(familyDf) <- c('family','count')
-
+rm(familyDf2)
 familyDf2 <- aggregate(hotelDf$is_canceled, by=list(hotelDf$family), FUN=sum)
-familyDf2$Group.1 <- factor(familyDf2$Group.1)
+#familyDf2$Group.1 <- factor(familyDf2$Group.1)
 colnames(familyDf2) <- c('family','count')
 
-p1 <- ggplot(familyDf, aes(x=family, y=count)) +
+ggplot(familyDf, aes(x=family, y=count)) +
   ggtitle('Reservation Status by family') +
   geom_segment(aes(x=family, xend=family, y=0, yend=count), color=ifelse(familyDf$family=='2','orange','grey'),
                size = 1) +
@@ -150,9 +162,11 @@ p1 <- ggplot(familyDf, aes(x=family, y=count)) +
   theme(
     panel.grid.major.y = element_blank(),
     panel.border = element_blank(),
-    axis.ticks.y = element_blank()
-  )# + transition_time(family)
-p2 <- ggplot(familyDf2, aes(x=family, y=count)) +
+    axis.ticks.y = element_blank(),
+    plot.title = element_text(face='bold', size=20)) + transition_time(family)
+#anim_save("graph1.gif") 
+
+ggplot(familyDf2, aes(x=family, y=count)) +
   ggtitle('Cancellation Status by family')+
   geom_segment(aes(x=family, xend=family, y=0, yend=count), color=ifelse(familyDf$family=='2','orange','grey'),
                size = 1) +
@@ -163,8 +177,10 @@ p2 <- ggplot(familyDf2, aes(x=family, y=count)) +
   theme(
     panel.grid.major.y = element_blank(),
     panel.border = element_blank(),
-    axis.ticks.y = element_blank()
-  )
+    axis.ticks.y = element_blank(),
+    plot.title = element_text(face='bold', size=20)) + transition_time(family)
+#anim_save("graph2.gif") 
+
 grid.arrange(arrangeGrob(p1, p2, ncol=2), nrow = 1)
 
 # 월별 예약/취소 현황
