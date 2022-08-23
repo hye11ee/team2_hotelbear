@@ -8,6 +8,12 @@
 
 ### 역할분담
 * 곽영효 : 호텔 예약 취소율 감소 및 이용객 증가 방안 도출
+<https://legendaryhero.shinyapps.io/younghyo/>
 * 강혜리 : 호텔 예약 취소 관련 변수 분석
+<https://hyelee.shinyapps.io/team2/>
 * 신나령 : 호텔 예약자/취소자 현황 분석
+<https://isna.shinyapps.io/ProjectWeek9/>
 * 우남광 : 재방문 관련 변수 분석
+<https://kkonji.shinyapps.io/9th_project_namgwang/>
+
+
