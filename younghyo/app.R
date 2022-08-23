@@ -124,15 +124,14 @@ ui <- fluidPage(h1("Hotel Booking demand", style = 'font-weight: bold;'),
                   
                   
                   
-                  
-                  
                   #영효파트
                   tabPanel("conclusion",
-                           h2('결론')),
+                           h2('결론')
+                           ),
                   mainPanel(
-                    tabsetPanel(
-                      tabPanel('Plot', plotOutput('plot_yh_1'))
-                    )
+                    img(src = 'graph_yh_1.gif'),
+                    plotOutput('plot_yh_2'),
+                    plotOutput('plot_yh_3')
                   )
                 )
 )
@@ -162,56 +161,59 @@ server <- function(input, output) {
   
   
   # 영효파트
-  df_city <- df[df$hotel == 'City Hotel',]
-  df_resort <- df[df$hotel == 'Resort Hotel',]
-  
-  df_city_repeated <- df_city[df_city$is_repeated_guest == 1,]
-  df_resort_repeated <- df_resort[df_resort$is_repeated_guest == 1,]
 
-  market_segment <- c('Corporate', 'Aviation',
-                      'Complementary', 'Direct',
-                      'Groups', 'Offline TA/TO',
-                      'Online TA')
-  
-  repeated_city <- c(
-    round(nrow(df_city_repeated[df_city_repeated$market_segment== 'Corporate',]) / 
-      nrow(df_city[df_city$market_segment == 'Corporate',])*100,2),
-    round(nrow(df_city_repeated[df_city_repeated$market_segment=='Aviation',]) / 
-            nrow(df_city[df_city$market_segment == 'Aviation',])*100,2),
-    round(nrow(df_city_repeated[df_city_repeated$market_segment=='Complementary',]) / 
-            nrow(df_city[df_city$market_segment == 'Complementary',])*100,2),
-    round(nrow(df_city_repeated[df_city_repeated$market_segment=='Direct',]) / 
-            nrow(df_city[df_city$market_segment == 'Direct',])*100,2),
-    round(nrow(df_city_repeated[df_city_repeated$market_segment=='Groups',]) / 
-            nrow(df_city[df_city$market_segment == 'Groups',])*100,2),
-    round(nrow(df_city_repeated[df_city_repeated$market_segment=='Offline TA/TO',]) / 
-            nrow(df_city[df_city$market_segment == 'Offline TA/TO',])*100,2),
-    round(nrow(df_city_repeated[df_city_repeated$market_segment=='Online TA',]) / 
-            nrow(df_city[df_city$market_segment == 'Online TA',])*100,2))
-  
-  repeated_resort <- c(
-    round(nrow(df_resort_repeated[df_resort_repeated$market_segment== 'Corporate',]) / 
-            nrow(df_resort[df_resort$market_segment == 'Corporate',])*100,2),
-    round(nrow(df_resort_repeated[df_resort_repeated$market_segment=='Aviation',])/ 
-            nrow(df_resort[df_resort$market_segment == 'Aviation',])*100,2),
-    round(nrow(df_resort_repeated[df_resort_repeated$market_segment=='Complementary',]) / 
-            nrow(df_resort[df_resort$market_segment == 'Complementary',])*100,2),
-    round(nrow(df_resort_repeated[df_resort_repeated$market_segment=='Direct',]) / 
-            nrow(df_resort[df_resort$market_segment == 'Direct',])*100,2),
-    round(nrow(df_resort_repeated[df_resort_repeated$market_segment=='Groups',]) / 
-            nrow(df_resort[df_resort$market_segment == 'Groups',])*100,2),
-    round(nrow(df_resort_repeated[df_resort_repeated$market_segment=='Offline TA/TO',]) / 
-            nrow(df_resort[df_resort$market_segment == 'Offline TA/TO',])*100,2),
-    round(nrow(df_resort_repeated[df_resort_repeated$market_segment=='Online TA',]) / 
-            nrow(df_resort[df_resort$market_segment == 'Online TA',])*100,2))
-
-  a <- data.frame(group = market_segment,
-                  values = repeated_city, frame = rep('a', 7))
-  b <- data.frame(group = market_segment,
-                  values = repeated_resort, frame = rep('b', 7))
-  data <- rbind(a,b) 
 
   output$plot_yh_1 <- renderPlot({
+    
+    df_city <- df[df$hotel == 'City Hotel',]
+    df_resort <- df[df$hotel == 'Resort Hotel',]
+    
+    df_city_repeated <- df_city[df_city$is_repeated_guest == 1,]
+    df_resort_repeated <- df_resort[df_resort$is_repeated_guest == 1,]
+    
+    market_segment <- c('Corporate', 'Aviation',
+                        'Complementary', 'Direct',
+                        'Groups', 'Offline TA/TO',
+                        'Online TA')
+    
+    repeated_city <- c(
+      round(nrow(df_city_repeated[df_city_repeated$market_segment== 'Corporate',]) / 
+              nrow(df_city[df_city$market_segment == 'Corporate',])*100,2),
+      round(nrow(df_city_repeated[df_city_repeated$market_segment=='Aviation',]) / 
+              nrow(df_city[df_city$market_segment == 'Aviation',])*100,2),
+      round(nrow(df_city_repeated[df_city_repeated$market_segment=='Complementary',]) / 
+              nrow(df_city[df_city$market_segment == 'Complementary',])*100,2),
+      round(nrow(df_city_repeated[df_city_repeated$market_segment=='Direct',]) / 
+              nrow(df_city[df_city$market_segment == 'Direct',])*100,2),
+      round(nrow(df_city_repeated[df_city_repeated$market_segment=='Groups',]) / 
+              nrow(df_city[df_city$market_segment == 'Groups',])*100,2),
+      round(nrow(df_city_repeated[df_city_repeated$market_segment=='Offline TA/TO',]) / 
+              nrow(df_city[df_city$market_segment == 'Offline TA/TO',])*100,2),
+      round(nrow(df_city_repeated[df_city_repeated$market_segment=='Online TA',]) / 
+              nrow(df_city[df_city$market_segment == 'Online TA',])*100,2))
+    
+    repeated_resort <- c(
+      round(nrow(df_resort_repeated[df_resort_repeated$market_segment== 'Corporate',]) / 
+              nrow(df_resort[df_resort$market_segment == 'Corporate',])*100,2),
+      round(nrow(df_resort_repeated[df_resort_repeated$market_segment=='Aviation',])/ 
+              nrow(df_resort[df_resort$market_segment == 'Aviation',])*100,2),
+      round(nrow(df_resort_repeated[df_resort_repeated$market_segment=='Complementary',]) / 
+              nrow(df_resort[df_resort$market_segment == 'Complementary',])*100,2),
+      round(nrow(df_resort_repeated[df_resort_repeated$market_segment=='Direct',]) / 
+              nrow(df_resort[df_resort$market_segment == 'Direct',])*100,2),
+      round(nrow(df_resort_repeated[df_resort_repeated$market_segment=='Groups',]) / 
+              nrow(df_resort[df_resort$market_segment == 'Groups',])*100,2),
+      round(nrow(df_resort_repeated[df_resort_repeated$market_segment=='Offline TA/TO',]) / 
+              nrow(df_resort[df_resort$market_segment == 'Offline TA/TO',])*100,2),
+      round(nrow(df_resort_repeated[df_resort_repeated$market_segment=='Online TA',]) / 
+              nrow(df_resort[df_resort$market_segment == 'Online TA',])*100,2))
+    
+    a <- data.frame(group = market_segment,
+                    values = repeated_city, frame = rep('a', 7))
+    b <- data.frame(group = market_segment,
+                    values = repeated_resort, frame = rep('b', 7))
+    data <- rbind(a,b) 
+    
     ggplot(data, aes(x=group, y=values, fill=group)) + 
       geom_bar(stat='identity') +
       scale_fill_brewer(palette = "Set3", direction = -1) +
@@ -220,26 +222,58 @@ server <- function(input, output) {
         frame,
         transition_length = 2,
         state_length = 1
-      ) +
-      ease_aes('sine-in-out')
+      ) + ease_aes('sine-in-out')
   })
-  
-  
-#  ggplot(data, aes(x=group, y=values, fill=group)) + 
-#    geom_bar(stat='identity') +
-#    scale_fill_brewer(palette = "Set3", direction = -1) +
-#    theme_minimal() +
-#    transition_states(
-#      frame,
-#      transition_length = 2,
-  #      state_length = 1
-  #  ) +
-  # ease_aes('sine-in-out')
-  
-  # Save at gif:
   # anim_save("graph_yh_1.gif") 
   
+  output$plot_yh_2 <- renderPlot({
+    df_city_cancel <- df_city[df_city$is_canceled == 1,]
+    df_resort_cancel <- df_resort[df_resort$is_canceled == 1,]
+    
+    unique(df$arrival_date_month)
+    
+    month <- c(
+      'January', 'February', 'March', 'April', 'May',
+      'June', 'July', 'August', 'September', 'October',
+      'November', 'December'
+    )
+    
+    cancel_city <- data.frame()
+    cancel_resort <- data.frame()
+    
+    for (i in month){
+      C1 = i
+      C2 = round(nrow(df_city_cancel[df_city_cancel$arrival_date_month== i,]) / 
+                   nrow(df_city[df_city$arrival_date_month == i,])*100,2)
+      cancel_city = rbind(cancel_city, c(C1, C2))
+    }
+    names(cancel_city) = c('Month', 'Rate')
+    
+    for (i in month){
+      C1 = i
+      C2 = round(nrow(df_resort_cancel[df_resort_cancel$arrival_date_month== i,]) / 
+                   nrow(df_resort[df_resort$arrival_date_month == i,])*100,2)
+      cancel_resort = rbind(cancel_resort, c(C1, C2))
+    }
+    names(cancel_resort) = c('Month', 'Rate')
+    
+    ggplot(cancel_city, aes(Month, Rate)) +
+      geom_bar(stat = 'identity') +
+      scale_x_discrete(limits = month) +
+      theme_minimal() +
+      coord_polar() +
+      xlab("") + ylab("")+
+      scale_fill_brewer(palette = "Set3")
+  })
+  
+  output$plot_yh_3 <- renderPlot({
+    ggplot(cancel_resort, aes(Month, Rate)) +
+      geom_bar(stat = 'identity') +
+      scale_x_discrete(limits = month) +
+      theme_minimal() +
+      coord_polar() +
+      xlab("") + ylab("")+
+      scale_fill_brewer(palette = "Set3") 
+  })
 }
-
-
 shinyApp(ui, server)
